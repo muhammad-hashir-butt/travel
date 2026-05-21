@@ -69,10 +69,12 @@
             cursor: pointer;
             display: none;
             z-index: 2100;
+            transition: var(--transition);
         }
 
-        /* --- MOBILE RESPONSIVE NAV --- */
+        /* --- RESPONSIVE ADJUSTMENTS --- */
         @media (max-width: 992px) {
+            nav { padding: 0 5%; }
             .hamburger { display: block; }
 
             .nav-links {
@@ -81,20 +83,29 @@
                 height: 100vh;
                 background: var(--dark);
                 top: 0;
-                right: -100%; /* Bahar rahega */
+                right: -100%; /* Default side bar position */
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                transition: 0.5s ease;
+                transition: 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             }
 
-            /* Jab menu open hoga to ye class add hogi JS se */
             .nav-links.active {
                 right: 0;
             }
 
             .nav-links li { margin: 20px 0; }
             .nav-links li a { color: white; font-size: 22px; }
+
+            /* Grid Adjustments for Mobile */
+            .features, .gallery, .contact-section {
+                grid-template-columns: 1fr !important;
+                padding: 40px 5% !important;
+            }
+            
+            .hero h1 { font-size: 2.5rem !important; }
+            .container { width: 95%; margin: 50px auto; }
+            .gallery-item { height: 300px !important; }
         }
 
         /* --- HERO SECTION --- */
@@ -136,7 +147,7 @@
 
         /* --- PRICING TABLE --- */
         .pricing-area { background: var(--dark); padding: 80px 5%; color: white; text-align: center; }
-        .table-scroll { overflow-x: auto; margin-top: 40px; border-radius: 10px; }
+        .table-scroll { overflow-x: auto; margin-top: 40px; border-radius: 10px; width: 100%; }
         table { width: 100%; border-collapse: collapse; min-width: 600px; background: rgba(255,255,255,0.05); text-align: left; }
         th, td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         th { color: var(--accent); font-size: 18px; text-transform: uppercase; }
@@ -156,7 +167,6 @@
     <nav>
         <a href="#" class="logo">HORIZON ESCAPES</a>
         
-        <!-- Hamburger Icon -->
         <div class="hamburger" id="hamburger">
             <i class="fas fa-bars"></i>
         </div>
@@ -203,7 +213,7 @@
                 <div class="overlay"><h3>Bali, Indonesia</h3><p>From $1,200</p></div>
             </div>
             <div class="gallery-item">
-                <img src="p1.jpeg" alt="Switzerland">
+                <img src="p1.jpeg" alt="Switzerland" onerror="this.src='https://images.unsplash.com/photo-1506905372214-52df7bc25e3d?auto=format&fit=crop&w=600&q=80'">
                 <div class="overlay"><h3>Swiss Alps</h3><p>From $2,500</p></div>
             </div>
             <div class="gallery-item">
@@ -297,23 +307,22 @@
         const navLinks = document.getElementById('nav-links');
         const links = document.querySelectorAll('.nav-links li a');
 
-        // 1. Menu ko open/close karne ke liye
-        hamburger.addEventListener('click', () => {
+        // Menu toggle function
+        function toggleMenu() {
             navLinks.classList.toggle('active');
-            // Icon change (bars to X)
             const icon = hamburger.querySelector('i');
             icon.classList.toggle('fa-bars');
             icon.classList.toggle('fa-times');
-        });
+        }
 
-        // 2. JUB CONTENT (LINK) CLICK HO TO MENU BAND HO JAYE
+        hamburger.addEventListener('click', toggleMenu);
+
+        // Close menu when a link is clicked
         links.forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                // Icon ko wapas bars kar do
-                const icon = hamburger.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
+                if(navLinks.classList.contains('active')) {
+                    toggleMenu();
+                }
             });
         });
     </script>
