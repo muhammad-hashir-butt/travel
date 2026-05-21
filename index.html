@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Escapes | Discover the World</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #005f73;
+            --accent: #ee9b00;
+            --dark: #001219;
+            --white: #ffffff;
+            --transition: all 0.4s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { overflow-x: hidden; background: #fff; }
+        html { scroll-behavior: smooth; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background: var(--white);
+            height: 80px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8%;
+            position: fixed;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li { margin: 0 15px; }
+        .nav-links li a {
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .nav-links li a:hover { color: var(--accent); }
+
+        /* Hamburger Icon */
+        .hamburger {
+            font-size: 28px;
+            color: var(--primary);
+            cursor: pointer;
+            display: none;
+            z-index: 2100;
+        }
+
+        /* --- MOBILE RESPONSIVE NAV --- */
+        @media (max-width: 992px) {
+            .hamburger { display: block; }
+
+            .nav-links {
+                position: fixed;
+                width: 100%;
+                height: 100vh;
+                background: var(--dark);
+                top: 0;
+                right: -100%; /* Bahar rahega */
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: 0.5s ease;
+            }
+
+            /* Jab menu open hoga to ye class add hogi JS se */
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li { margin: 20px 0; }
+            .nav-links li a { color: white; font-size: 22px; }
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), 
+                        url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 8vw, 4.5rem); margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; max-width: 650px; font-weight: 300; }
+        .cta-btn { background: var(--accent); color: white; padding: 15px 40px; text-decoration: none; border-radius: 5px; font-weight: 600; transition: 0.3s; }
+        .cta-btn:hover { background: #ca6702; transform: translateY(-3px); }
+
+        /* --- FEATURES --- */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 60px 8%; background: #f9f9f9; text-align: center; }
+        .f-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .f-box i { font-size: 40px; color: var(--accent); margin-bottom: 15px; }
+
+        /* --- GALLERY --- */
+        .container { width: 90%; max-width: 1200px; margin: 80px auto; }
+        .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 35px; margin-bottom: 50px; position: relative; padding-bottom: 15px; }
+        .section-title::after { content: ''; width: 60px; height: 3px; background: var(--accent); position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+        
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .gallery-item { position: relative; height: 380px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .gallery-item:hover img { transform: scale(1.1); filter: brightness(70%); }
+        .overlay { position: absolute; bottom: 30px; left: 30px; color: white; }
+
+        /* --- PRICING TABLE --- */
+        .pricing-area { background: var(--dark); padding: 80px 5%; color: white; text-align: center; }
+        .table-scroll { overflow-x: auto; margin-top: 40px; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; background: rgba(255,255,255,0.05); text-align: left; }
+        th, td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { color: var(--accent); font-size: 18px; text-transform: uppercase; }
+
+        /* --- CONTACT SECTION --- */
+        .contact-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; margin-top: 80px; padding: 60px; background: #f4f4f4; border-radius: 20px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        .submit-btn { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; }
+
+        /* --- FOOTER --- */
+        footer { background: var(--dark); color: white; text-align: center; padding: 60px 0; }
+    </style>
+</head>
+<body>
+
+    <!-- Nav Bar -->
+    <nav>
+        <a href="#" class="logo">HORIZON ESCAPES</a>
+        
+        <!-- Hamburger Icon -->
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#destinations">Destinations</a></li>
+            <li><a href="#pricing">Packages</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Life Is Short, Travel More</h1>
+        <p>Experience the world's most breathtaking locations with our premium luxury travel packages designed for you.</p>
+        <a href="#destinations" class="cta-btn">Explore Now</a>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="f-box">
+            <i class="fas fa-route"></i>
+            <h3>Easy Itinerary</h3>
+            <p>Well-planned trips so you can enjoy without any stress.</p>
+        </div>
+        <div class="f-box">
+            <i class="fas fa-hotel"></i>
+            <h3>Luxury Stay</h3>
+            <p>We partner with the world's best 5-star hotel chains.</p>
+        </div>
+        <div class="f-box">
+            <i class="fas fa-headset"></i>
+            <h3>24/7 Support</h3>
+            <p>Our team is always there to help you during your journey.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title" id="destinations">Popular Destinations</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=600&q=80" alt="Bali">
+                <div class="overlay"><h3>Bali, Indonesia</h3><p>From $1,200</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="p1.jpeg" alt="Switzerland">
+                <div class="overlay"><h3>Swiss Alps</h3><p>From $2,500</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=600&q=80" alt="Venice">
+                <div class="overlay"><h3>Venice, Italy</h3><p>From $1,800</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=600&q=80" alt="Maldives">
+                <div class="overlay"><h3>Maldives</h3><p>From $3,000</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=600&q=80" alt="Canada">
+                <div class="overlay"><h3>Banff, Canada</h3><p>From $1,500</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80" alt="Paris">
+                <div class="overlay"><h3>Paris, France</h3><p>From $2,000</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Table -->
+    <section class="pricing-area" id="pricing">
+        <h2 class="section-title" style="color:white">Exclusive Travel Packages</h2>
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Destination</th>
+                        <th>Duration</th>
+                        <th>Includes</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>The Tropical Escape</td>
+                        <td>5 Days</td>
+                        <td>Flights, Hotel, Tours</td>
+                        <td style="color:var(--accent); font-weight:bold">$1,499</td>
+                    </tr>
+                    <tr>
+                        <td>European Wonders</td>
+                        <td>10 Days</td>
+                        <td>Train Pass, Hotels, Guide</td>
+                        <td style="color:var(--accent); font-weight:bold">$3,200</td>
+                    </tr>
+                    <tr>
+                        <td>Desert Dream (Dubai)</td>
+                        <td>6 Days</td>
+                        <td>Safari, Luxury Hotel, Dinner</td>
+                        <td style="color:var(--accent); font-weight:bold">$1,850</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <div class="container" id="contact">
+        <div class="contact-section">
+            <div>
+                <h2 style="font-family:'Playfair Display'; margin-bottom: 20px;">Book Your Dream Trip</h2>
+                <p>Fill out the form and our travel concierge will get back to you within 24 hours to plan your itinerary.</p>
+                <div style="margin-top: 30px; line-height: 2;">
+                    <p><strong>Email:</strong> bookings@horizonescapes.com</p>
+                    <p><strong>Phone:</strong> +1 (800) 555-0199</p>
+                    <p><strong>Address:</strong> 5th Ave, Manhattan, NY</p>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form>
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email Address" required>
+                    <textarea rows="5" placeholder="Tell us about your dream destination..."></textarea>
+                    <button type="submit" class="submit-btn">Send Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h2 style="font-family:'Playfair Display'; margin-bottom: 15px;">HORIZON ESCAPES</h2>
+        <p style="color: #888; margin-bottom: 20px;">Making every journey a story worth telling.</p>
+        <p>&copy; 2024 Horizon Escapes Tourism. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Hamburger Logic -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        const links = document.querySelectorAll('.nav-links li a');
+
+        // 1. Menu ko open/close karne ke liye
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            // Icon change (bars to X)
+            const icon = hamburger.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // 2. JUB CONTENT (LINK) CLICK HO TO MENU BAND HO JAYE
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                // Icon ko wapas bars kar do
+                const icon = hamburger.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+    </script>
+
+</body>
+</html>
